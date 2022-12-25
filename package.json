@@ -1,0 +1,19 @@
+{
+  "name": "kustoms-backend",
+  "version": "1.0.0",
+  "description": "Kustoms backend",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "kustoms-backend"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "sequelize": "^6.28.0"
+  }
+}
