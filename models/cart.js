@@ -1,4 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
+const Customer = require('./customer');
 const Designer = require('./designer');
 
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME,  process.env.DB_PASSWORD, {
@@ -6,38 +7,38 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME,  p
     dialect: process.env.DB_DIALECT
     });
 
-const Item = sequelize.define('Item', {
-    id: {
+
+const Cart = sequelize.define('Cart', {
+    customerID: {
         type: DataTypes.INTEGER,
-        autoIncrement: true,
-        unique: true,
         primaryKey: true,
-        allowNull: false
+        allowNull: false,
+        references: {
+            model: Customer,
+            key: 'id',
+        }
     },
-    designerID: {
+    itemID: {
         type: DataTypes.INTEGER,
+        primaryKey: true,
         allowNull: false,
         references: {
             model: Designer,
             key: 'id',
         }
     },
-    name: {
+    numberOfItems: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    },
+    password: {
     type: DataTypes.STRING,
     allowNull: false,
     },
-    description: {
-    type: DataTypes.TEXT,
+    phone: {
+    type: DataTypes.STRING,
     allowNull: false,
-    },
-    price: {
-    type: DataTypes.FLOAT,
-    allowNull: false,
-    },
-    image: {
-        type: DataTypes.STRING,
-        allowNull: false,
     }
 });
 
-module.exports = Item;
+module.exports = Cart;

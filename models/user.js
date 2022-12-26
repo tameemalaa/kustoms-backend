@@ -1,43 +1,36 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const Designer = require('./designer');
 
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME,  process.env.DB_PASSWORD, {
     host: process.env.DB_HOST,
     dialect: process.env.DB_DIALECT
     });
 
-const Item = sequelize.define('Item', {
+const User = sequelize.define('User', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
-        unique: true,
         primaryKey: true,
         allowNull: false
     },
-    designerID: {
-        type: DataTypes.INTEGER,
+    username: {
+        type: DataTypes.STRING,
+        unique: true,
         allowNull: false,
-        references: {
-            model: Designer,
-            key: 'id',
-        }
     },
-    name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    },
-    description: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-    },
-    price: {
-    type: DataTypes.FLOAT,
-    allowNull: false,
-    },
-    image: {
+    email: {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
+    },
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    phone: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
     }
 });
 
-module.exports = Item;
+module.exports = User;
