@@ -1,2 +1,5 @@
 node_modules
 process.env
+combined.log
+error.log
+.env
