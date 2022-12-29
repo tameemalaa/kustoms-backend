@@ -31,14 +31,7 @@ const Cart = sequelize.define('Cart', {
     type: DataTypes.INTEGER,
     allowNull: false,
     },
-    password: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    },
-    phone: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    }
+    
 });
 
 module.exports = Cart;
