@@ -22,7 +22,7 @@ const Item = sequelize.define('Item', {
             key: 'id',
         }
     },
-    name: {
+    title: {
     type: DataTypes.STRING,
     allowNull: false,
     },
