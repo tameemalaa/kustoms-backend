@@ -1,15 +1,15 @@
 const User = require('./models/user');
 
 const Customer = User.extend( {
-    firstname: {
+    firstName: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    lastname: {
+    lastName: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    birthdate:{
+    birthDate:{
         type: DataTypes.DATE,
         allowNull: false
     }

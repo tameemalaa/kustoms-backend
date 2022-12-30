@@ -11,6 +11,7 @@ const Address = sequelize.define('Address', {
         type: DataTypes.INTEGER,
         primaryKey: true,
         allowNull: false,
+        unique: true,
         autoIncrement: true
     },
     customerID: {

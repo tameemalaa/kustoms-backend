@@ -4,7 +4,7 @@ const Designer = Customer.extend( {
     NationalID: {
         type: DataTypes.INTEGER,
         unique: true,
-        allowNull: false,
+        allowNull: true,
     }
 });
 
