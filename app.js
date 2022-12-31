@@ -12,8 +12,13 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME,  p
     });
 
 sequelize.authenticate()
-    .then(db => app.listen(process.env.PORT))
+    .then(db => {
+        app.listen(process.env.PORT)
+        // sequelize.sync()
+    })
     .catch(err => console.error(err));
+
+    app.use(express.json())
 
 const logger = winston.createLogger({
     level: 'info',
@@ -35,3 +40,4 @@ app.use((req, res, next) => {
     logger.info(`${req.method} ${req.url}`);
     next();
 });
+
