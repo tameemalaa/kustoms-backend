@@ -1,10 +1,6 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const User = require('./user');
-
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME,  process.env.DB_PASSWORD, {
-    host: process.env.DB_HOST,
-    dialect: process.env.DB_DIALECT
-    });
+const { DataTypes } = require('sequelize');
+const Customer = require('./customer');
+const sequelize = require('./database');
 
 const PromotionCode = sequelize.define('PromotionCode', {
     id: {
@@ -42,7 +38,7 @@ const PromotionCode = sequelize.define('PromotionCode', {
         type: DataTypes.INTEGER,
         allowNull: true,
         references: {
-            model: User,
+            model: Customer,
             key: 'id',
         }
     }

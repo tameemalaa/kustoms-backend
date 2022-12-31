@@ -1,15 +1,9 @@
 const express = require('express');
 const winston = require('winston');
-const { Sequelize } = require('sequelize');
-const dotenv=require('dotenv');
-
+const dotenv=require('dotenv').config()
+const sequelize = require('./models/database');
+const db = require('./models/index')
 const app = express();
-dotenv.config()
-
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME,  process.env.DB_PASSWORD, {
-    host: process.env.DB_HOST,
-    dialect: process.env.DB_DIALECT
-    });
 
 sequelize.authenticate()
     .then(db => {
