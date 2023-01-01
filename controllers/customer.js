@@ -1,8 +1,12 @@
 const Customer = require('../models/customer');
 const { Op } = require("sequelize");
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const authMiddleware = require('./controllers/authMiddleware');
 
-const postCustomerSignUp = (req ,res ) => {
-    // TODO : add RegX to validate CustomerData
+const  postCustomerSignUp = async(req ,res ) => {
+    // TODO : Add RegX to validate CustomerData
+    // TODO : Reduce the number of queries while keeping the source of repetition known 
     try{
     customerData = {
         username : req.body.username,
@@ -17,32 +21,51 @@ const postCustomerSignUp = (req ,res ) => {
         res.status(400).error(err.message)
     }
     if (Customer.findOne({where : {username : customerData.username}})){
-        res.status(400).error(err.message)
+        res.status(400).json({error : "username"})
     }
     if (Customer.findOne({where : {email : customerData.email}})){
-        res.status(400).error(err.message)
+        res.status(400).error({error : "email"})
     }
     if (Customer.findOne({where : {phone : customerData.phone}})){
-        res.status(400).error(err.message)
+        res.status(400).error({error : "phone"})
+    }
+    try{
+        const salt = await bcrypt.genSalt();
+        CustomerData.password = await bcrypt.hash(req.body.password, salt);
+        Customer.create(CustomerDate).then(customer=>{res.status(201).redirect('/login')});
+    } 
+    catch{
+        res.status(500).send();
     }
 } 
 
-const postCustomerSignIn = (req , res) => {
-    data = req.body
-    Customer.findOne({where : {username : req.body.username}})
-    .then(user => if user.password == data.password  {
-            return res.status(202).json(token : JWT TOKEN )
+const postCustomerSignIn = async(req , res) => {
+    try{
+            username= req.body.username
         }
-        else {
-            return res.status(401) .json(token : 0 );   
+        catch(err){
+            res.status(400).error(err.message)
         }
-    )
+    Customer.findOne({
+        where: {
+            [Op.or]: [
+                { username: username },
+                { email: username }
+            ]}}).then( customer => {
+        if(!customer){ return res.status(406).send('customer not found'); }
+    try{
+        if(bcrypt.compare(req.body.password, customer.password)){
+            const accessToken = jwt.sign({id : customer.id , role : 'customer'}, process.env.ACCESS_SECRETE_TOKEN);
+            res.status(200).json({"jwt": accessToken});
+        }
+        else res.send("wrong password");
+        }
+    catch {
+        res.status(500).send();
+        }
+        });
 }
 
-const getItem = (req , res) => {
-    customers = Customer.findall();
-    return res.status(200).json(customers)
-}
 
 module.exports={
     postCustomerSignUp,
